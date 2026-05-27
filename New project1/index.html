@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>我的物品陈列</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="topbar" aria-label="陈列管理">
+        <nav class="menu-bar" aria-label="页面菜单">
+          <a href="#itemGrid">展览</a>
+          <a href="#itemForm">登记</a>
+          <a href="#filters">展区</a>
+        </nav>
+        <div class="title-block">
+          <p class="eyebrow">PRIVATE EXHIBITION</p>
+          <h1>我的物品陈列</h1>
+        </div>
+        <div class="top-right">
+          <div class="top-actions">
+            <label class="search">
+              <span>搜索</span>
+              <input id="searchInput" type="search" placeholder="搜索物品、分类、位置或说明" />
+            </label>
+            <button class="icon-button" id="shareButton" type="button" title="复制公开展览链接">↗</button>
+            <button class="icon-button" id="importButton" type="button" title="导入备份">↑</button>
+            <button class="icon-button" id="exportButton" type="button" title="导出备份">↓</button>
+            <input id="importInput" type="file" accept="application/json" hidden />
+          </div>
+          <section class="summary" aria-label="展览概览">
+            <div>
+              <span id="totalCount">0</span>
+              <p>全部藏品</p>
+            </div>
+            <div>
+              <span id="categoryCount">0</span>
+              <p>展区</p>
+            </div>
+            <div>
+              <span id="featuredCount">0</span>
+              <p>精选</p>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <section class="content" aria-label="物品列表">
+          <div class="list-toolbar">
+            <div class="filters" id="filters"></div>
+            <div class="view-tools">
+              <label>
+                排序
+                <select id="sortSelect">
+                  <option value="curated">精选优先</option>
+                  <option value="newest">最新加入</option>
+                  <option value="name">名称 A-Z</option>
+                  <option value="category">展区分类</option>
+                </select>
+              </label>
+              <div class="segmented" aria-label="显示方式">
+                <button class="view-button active" data-view="gallery" type="button">展览</button>
+                <button class="view-button" data-view="catalog" type="button">目录</button>
+              </div>
+            </div>
+          </div>
+          <div class="item-grid" id="itemGrid"></div>
+          <div class="empty-state" id="emptyState" hidden>
+            <h2>这个展区暂时是空的</h2>
+            <p>换个关键词，或者在左侧加入一件新物品。</p>
+          </div>
+        </section>
+
+        <aside class="panel form-panel" aria-label="添加物品">
+          <h2>登记一件物品</h2>
+          <form id="itemForm">
+            <label>
+              物品名称
+              <input id="nameInput" type="text" placeholder="例如：陶瓷杯、老相机、木椅" required />
+            </label>
+            <label>
+              图片地址
+              <input id="imageInput" type="text" placeholder="可选：粘贴图片链接" />
+            </label>
+            <label>
+              上传图片
+              <input id="imageFileInput" type="file" accept="image/*" />
+            </label>
+            <label>
+              展区分类
+              <input id="categoryInput" type="text" placeholder="例如：家具、器物、书籍、纪念品" />
+            </label>
+            <label>
+              摆放位置
+              <input id="locationInput" type="text" placeholder="例如：客厅书架第二层" />
+            </label>
+            <label>
+              展签说明
+              <textarea id="noteInput" rows="3" placeholder="记录来源、故事、材质或想保留的原因"></textarea>
+            </label>
+            <label class="check-row">
+              <input id="featuredInput" type="checkbox" />
+              设为精选
+            </label>
+            <div class="form-row">
+              <button class="primary" type="submit">加入陈列</button>
+              <button class="secondary" id="clearButton" type="button">清空</button>
+            </div>
+          </form>
+        </aside>
+      </section>
+    </main>
+
+    <template id="itemTemplate">
+      <article class="item-card">
+        <div class="artwork">
+          <img alt="" />
+          <div class="placeholder" aria-hidden="true"></div>
+        </div>
+        <div class="label-card">
+          <div class="card-head">
+            <div>
+              <p class="accession"></p>
+              <h3></h3>
+            </div>
+            <span class="tag"></span>
+          </div>
+          <p class="note"></p>
+          <p class="meta"></p>
+          <div class="card-actions">
+            <button class="small-button feature" type="button">精选</button>
+            <button class="small-button copy" type="button">复制</button>
+            <button class="small-button edit" type="button">编辑</button>
+            <button class="small-button delete" type="button">删除</button>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <script src="config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
